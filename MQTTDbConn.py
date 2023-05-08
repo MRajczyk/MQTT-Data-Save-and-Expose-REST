@@ -49,7 +49,7 @@ class MQTTDbConn(threading.Thread):
         pass
 
     def getUniqueMacAddresses(self):
-        return self.dbConn.executeSQL("SELECT DISTINCT mac_addr FROM mqtt_logs")
+        return self.dbConn.executeSQL("SELECT DISTINCT mac_addr, min(timestamp), max(timestamp) FROM mqtt_logs")
 
     def getAllDataForSensor(self, mac_addr):
         return self.dbConn.executeSQL(f"SELECT * FROM mqtt_logs WHERE mac_addr='{mac_addr}'")

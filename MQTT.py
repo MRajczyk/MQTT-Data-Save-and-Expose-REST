@@ -29,15 +29,19 @@ if __name__ == "__main__":
     @app.get("/data/all", response_model=List[MQTTData])
     async def root():
         macs = []
+        # returns mac_addr and min, max timestamps
         for row in mqttClient.getUniqueMacAddresses():
-            macs.append(row[0])
+            macs.append(row)
 
         print(macs)
 
         for mac in macs:
-            for mac_row in mqttClient.getAllDataForSensor(mac):
+            for mac_row in mqttClient.getAllDataForSensor(mac[0]):
                 print(mac_row)
             print("===")
+
+        # extract min and max data (begin, end) - ok
+        # TODO: build json according to szymonaszek's mock (to be talked about)
 
         # ret = mqttClient.getAllData()
         # data = []
